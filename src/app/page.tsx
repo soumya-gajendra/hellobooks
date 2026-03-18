@@ -22,17 +22,19 @@ export default function Home() {
     localStorage.setItem("meru_data_v4", JSON.stringify(allShipments));
   }, [allShipments]);
 
-  const handleAdd = (data: { recipient: string; bookTitle: string; location: string }) => {
+const handleAdd = (data: { recipient: string; bookTitle: string; location: string }) => {
     const newShip: Shipment = {
       id: `HB-${Math.floor(1000 + Math.random() * 9000)}`,
-      ...data,
+      recipient: data.recipient,
+      bookTitle: data.bookTitle,
+      location: data.location,
       status: "Pending",
       estimatedArrival: "TBD",
+      dateAdded: new Date().toLocaleDateString()
     };
     setAllShipments([newShip, ...allShipments]);
     setIsModalOpen(false);
   };
-
   const deleteShip = (id: string) => {
     if (confirm("Are you sure you want to remove this record?")) {
       setAllShipments(allShipments.filter(s => s.id !== id));
